@@ -19,8 +19,8 @@ class SleepCycleView extends WatchUi.View {
         var dataTimer = new Timer.Timer();
 		dataTimer.start(method(:timerCallback), 100, true); // A one-second timer
 		
-		graph = new LineGraph(20, 10, Graphics.COLOR_BLUE);
-		graph2 = new LineGraph(20, 10, Graphics.COLOR_RED);
+		graph = new LineGraph(80, 10, Graphics.COLOR_BLUE);
+		graph2 = new LineGraph(80, 10, Graphics.COLOR_RED);
     }
 
     // Load your resources here
@@ -63,13 +63,14 @@ class SleepCycleView extends WatchUi.View {
         	var accel = sensorInfo.accel;
         	var xAccel = accel[0];
         	var yAccel = accel[1];
-        	debug_string = accel[0] + " " + accel[1] + " " + accel[2];
+        	//debug_string = accel[0] + " " + accel[1] + " " + accel[2];
         	
         	if (prior_value_exists){
         		sum = ((past_accel[0] - accel[0]).abs() + (past_accel[1] - accel[1]).abs() + (past_accel[2] - accel[2]).abs());
         		sum_new = Math.floor(Math.sqrt((accel[0] * accel[0]) + (accel[1] * accel[1]) + (accel[2] * accel[2]))).toNumber();
         		graph.addItem(sum);
         		graph2.addItem(sum_new);
+        		debug_string = sum + "   " + sum_new;
         	}
         	
         	past_accel[0] = accel[0];
@@ -78,7 +79,6 @@ class SleepCycleView extends WatchUi.View {
         	
         	prior_value_exists = true;
         	
-        	graph.addItem(sum);
         	WatchUi.requestUpdate();
     	}
 	}
