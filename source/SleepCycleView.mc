@@ -10,6 +10,10 @@ class SleepCycleView extends WatchUi.View {
 	var prior_value_exists = false;
 	var sum = 0;
 	var sum_new = 0;
+	var myTime;
+	//For the generation of the log
+	var max_sum_new;
+	var counter;
 
     function initialize() {
         View.initialize();
@@ -17,7 +21,7 @@ class SleepCycleView extends WatchUi.View {
         //Sensor.enableSensorEvents(method(:onSensor));
         debug_string = "no data yet";
         var dataTimer = new Timer.Timer();
-		dataTimer.start(method(:timerCallback), 100, true); // A one-second timer
+		dataTimer.start(method(:timerCallback), 1000, true); // A one-second timer
 		
 		graph = new LineGraph(20, 10, Graphics.COLOR_BLUE);
 		graph2 = new LineGraph(20, 10, Graphics.COLOR_RED);
@@ -58,6 +62,9 @@ class SleepCycleView extends WatchUi.View {
     }
     
     function timerCallback() {
+    	//Variable to store stuff for the log file
+    	var log_text;
+    	
     	var sensorInfo = Sensor.getInfo();
     	if (sensorInfo has :accel && sensorInfo.accel != null) {
         	var accel = sensorInfo.accel;
@@ -71,14 +78,28 @@ class SleepCycleView extends WatchUi.View {
         		graph.addItem(sum);
         		graph2.addItem(sum_new);
         	}
+        	if (prior_value_exists) {
+            	if (sum_new > max_sum_new) {
+                	max_sum_new = sum_new;
+            	}
+            	counter++;
+        	}
+        	if (counter == 60){
+        		//building the text for the log file
+        		myTime = System.getClockTime();
+        		log_text = myTime.min.format("%02d") + ";" + sum_new.toString();
+        		//Printing the log info
+        		System.println(log_text);
+        		
+        		counter=0;
+        	}
+        	
+        	prior_value_exists = true;
         	
         	past_accel[0] = accel[0];
         	past_accel[1] = accel[1];
         	past_accel[2] = accel[2];
-        	
-        	prior_value_exists = true;
-        	
-        	graph.addItem(sum);
+	
         	WatchUi.requestUpdate();
     	}
 	}
