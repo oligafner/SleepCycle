@@ -4,27 +4,19 @@ using Toybox.Timer;
 class SleepCycleView extends WatchUi.View {
 
 	var debug_string;
-	var graph;
-	var graph2;
-	var past_accel = new [3];
 	var prior_value_exists = false;
 	var sum = 0;
 	var sum_new = 0;
 	var myTime;
-	//For the generation of the log
-	var max_sum_new;
-	var counter;
+	var past_accel = new [3];
+	var max_sum = 0;
+	var max_sum_new = 0;
+	var counter = 0;
 
     function initialize() {
         View.initialize();
-        //Sensor.setEnabledSensors([Sensor.SENSOR_HEARTRATE]);
-        //Sensor.enableSensorEvents(method(:onSensor));
-        debug_string = "no data yet";
         var dataTimer = new Timer.Timer();
-		dataTimer.start(method(:timerCallback), 1000, true); // A one-second timer
-		
-		graph = new LineGraph(80, 10, Graphics.COLOR_BLUE);
-		graph2 = new LineGraph(80, 10, Graphics.COLOR_RED);
+		dataTimer.start(method(:timerCallback), 100, true);
     }
 
     // Load your resources here
@@ -40,12 +32,7 @@ class SleepCycleView extends WatchUi.View {
 
     // Update the view
     function onUpdate(dc) {
-        // Call the parent onUpdate function to redraw the layout
         View.onUpdate(dc);
-        dc.drawText(dc.getWidth() / 2, dc.getHeight() / 2, Graphics.FONT_LARGE, debug_string, Graphics.TEXT_JUSTIFY_CENTER);
-        
-        graph.draw(dc, [0, 0], [dc.getWidth(), dc.getHeight()]);
-        graph2.draw(dc, [0, 0], [dc.getWidth(), dc.getHeight()]);
     }
 
     // Called when this View is removed from the screen. Save the
@@ -53,55 +40,37 @@ class SleepCycleView extends WatchUi.View {
     // memory.
     function onHide() {
     }
-
-	function onSensor(sensor_info){
-    	if(sensor_info.heartRate != null){
-    		debug_string = sensor_info.heartRate;
-    	}
-    	WatchUi.requestUpdate();
-    }
     
     function timerCallback() {
-    	//Variable to store stuff for the log file
     	var log_text;
     	
     	var sensorInfo = Sensor.getInfo();
     	if (sensorInfo has :accel && sensorInfo.accel != null) {
         	var accel = sensorInfo.accel;
-        	var xAccel = accel[0];
-        	var yAccel = accel[1];
-        	//debug_string = accel[0] + " " + accel[1] + " " + accel[2];
-        	
-        	if (prior_value_exists){
+        	sum_new = Math.floor(Math.sqrt((accel[0] * accel[0]) + (accel[1] * accel[1]) + (accel[2] * accel[2]))).toNumber();
+        	if(prior_value_exists){
         		sum = ((past_accel[0] - accel[0]).abs() + (past_accel[1] - accel[1]).abs() + (past_accel[2] - accel[2]).abs());
-        		sum_new = Math.floor(Math.sqrt((accel[0] * accel[0]) + (accel[1] * accel[1]) + (accel[2] * accel[2]))).toNumber();
-        		graph.addItem(sum);
-        		graph2.addItem(sum_new);
-        		debug_string = sum + "   " + sum_new;
         	}
-        	if (prior_value_exists) {
-            	if (sum_new > max_sum_new) {
-                	max_sum_new = sum_new;
-            	}
-            	counter++;
-        	}
-        	if (counter == 60){
-        		//building the text for the log file
+            if (sum_new.abs() > max_sum_new) {
+               	max_sum_new = sum_new.abs();
+            }
+            if (sum.abs() > max_sum) {
+               	max_sum = sum.abs();
+            }
+            counter++;
+        	prior_value_exists = true;
+        	if (counter >= 600){
         		myTime = System.getClockTime();
-        		log_text = myTime.min.format("%02d") + ";" + sum_new.toString();
-        		//Printing the log info
+        		log_text = myTime.min.format("%02d") + ";" + max_sum_new.toString() + ";" + max_sum.toString();
         		System.println(log_text);
         		
-        		counter=0;
+        		counter = 0;
+        		max_sum_new = 0;
+        		max_sum = 0;
         	}
-        	
         	past_accel[0] = accel[0];
         	past_accel[1] = accel[1];
         	past_accel[2] = accel[2];
-        	
-        	prior_value_exists = true;
-        	
-        	WatchUi.requestUpdate();
     	}
 	}
 }
