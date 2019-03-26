@@ -9,6 +9,7 @@ class SleepCycleApp extends Application.AppBase {
 
     // onStart() is called on application start up
     function onStart(state) {
+    	//Storage.clearValues();
     }
 
     // onStop() is called when your application is exiting

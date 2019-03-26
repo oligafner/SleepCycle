@@ -1,5 +1,7 @@
 using Toybox.WatchUi;
 using Toybox.Timer;
+using Toybox.Application.Storage;
+using Toybox.Timer;
 
 class SleepCycleView extends WatchUi.View {
 
@@ -10,42 +12,45 @@ class SleepCycleView extends WatchUi.View {
 	var prior_value_exists = false;
 	var sum = 0;
 	var sum_new = 0;
-	var myTime;
+	var time;
 	//For the generation of the log
 	var max_sum_new;
 	var counter;
+	//Strings used to draw the time
+	var clock;
+	var set_time;
 
     function initialize() {
         View.initialize();
-        //Sensor.setEnabledSensors([Sensor.SENSOR_HEARTRATE]);
-        //Sensor.enableSensorEvents(method(:onSensor));
-        debug_string = "no data yet";
-        var dataTimer = new Timer.Timer();
-		dataTimer.start(method(:timerCallback), 1000, true); // A one-second timer
-		
-		graph = new LineGraph(80, 10, Graphics.COLOR_BLUE);
-		graph2 = new LineGraph(80, 10, Graphics.COLOR_RED);
     }
 
     // Load your resources here
     function onLayout(dc) {
-        setLayout(Rez.Layouts.MainLayout(dc));
+    	time = System.getClockTime();
+    	clock = time.hour.format("%02d") + ":" + time.min.format("%02d") + ":" + time.sec.format("%02d");
+        var myTimer = new Timer.Timer();
+    	myTimer.start(method(:timerCallback), 500, true);
+    	setLayout(Rez.Layouts.MainLayout(dc));
     }
 
     // Called when this View is brought to the foreground. Restore
     // the state of this View and prepare it to be shown. This includes
     // loading resources into memory.
     function onShow() {
+    	if(Storage.getValue("set_time") != null){
+    		var hours = Storage.getValue("timer_hoursOfDay");
+    		var mins = Storage.getValue("timer_minutesOfDay");
+    		set_time = hours.format("%02d") + ":" + mins.format("%02d");
+    	} else {
+    		set_time = "No timer set";
+    	}
     }
 
     // Update the view
     function onUpdate(dc) {
-        // Call the parent onUpdate function to redraw the layout
         View.onUpdate(dc);
-        dc.drawText(dc.getWidth() / 2, dc.getHeight() / 2, Graphics.FONT_LARGE, debug_string, Graphics.TEXT_JUSTIFY_CENTER);
-        
-        graph.draw(dc, [0, 0], [dc.getWidth(), dc.getHeight()]);
-        graph2.draw(dc, [0, 0], [dc.getWidth(), dc.getHeight()]);
+        dc.drawText(dc.getWidth() / 2, dc.getHeight() / 2, Graphics.FONT_LARGE, clock, Graphics.TEXT_JUSTIFY_CENTER);
+        dc.drawText(dc.getWidth() / 2, dc.getHeight() / 2 + 50, Graphics.FONT_LARGE, set_time, Graphics.TEXT_JUSTIFY_CENTER);
     }
 
     // Called when this View is removed from the screen. Save the
@@ -53,19 +58,21 @@ class SleepCycleView extends WatchUi.View {
     // memory.
     function onHide() {
     }
-
-	function onSensor(sensor_info){
-    	if(sensor_info.heartRate != null){
-    		debug_string = sensor_info.heartRate;
-    	}
-    	WatchUi.requestUpdate();
-    }
     
     function timerCallback() {
+    	time = System.getClockTime();
+     	clock = time.hour.format("%02d") + ":" + time.min.format("%02d") + ":" + time.sec.format("%02d");
+    	WatchUi.requestUpdate();
+	}
+    
+    /*
+    function timerCallback() {
+    	//System.println("Test");
     	//Variable to store stuff for the log file
     	var log_text;
     	
     	var sensorInfo = Sensor.getInfo();
+    	
     	if (sensorInfo has :accel && sensorInfo.accel != null) {
         	var accel = sensorInfo.accel;
         	var xAccel = accel[0];
@@ -101,7 +108,10 @@ class SleepCycleView extends WatchUi.View {
         	
         	prior_value_exists = true;
         	
+        	
         	WatchUi.requestUpdate();
     	}
+    	
 	}
+	*/
 }
