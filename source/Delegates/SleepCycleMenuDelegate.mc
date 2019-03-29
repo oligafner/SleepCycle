@@ -37,7 +37,7 @@ class SleepCycleMenuDelegate extends WatchUi.MenuInputDelegate {
         	}
         } else if (item == :item_2) {
             System.println("item 2");
-            //Watchui.pushView();
+            WatchUi.pushView(new SleepCycleRangePicker(), new SleepCycleRangePickerDelegate(), WatchUi.SLIDE_UP);
         }
     }
 

@@ -3,6 +3,6 @@
 
     <string id="prompt">SleepCycle</string>
 
-    <string id="menu_label_1">Set Timer</string>
-    <string id="menu_label_2">Set range</string>
+    <string id="menu_label_1">SET TIMER</string>
+    <string id="menu_label_2">SET RANGE</string>
 </strings>
