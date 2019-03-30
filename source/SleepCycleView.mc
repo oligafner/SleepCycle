@@ -12,6 +12,7 @@ class SleepCycleView extends WatchUi.View {
 	var max_sum = 0;
 	var max_sum_new = 0;
 	var counter = 0;
+	var pulse_sum = 0;
 
     function initialize() {
         View.initialize();
@@ -41,11 +42,18 @@ class SleepCycleView extends WatchUi.View {
     function onHide() {
     }
     
+    function onSensor(sensor_info){
+    	if(sensor_info.heartRate != null){
+    		debug_string = sensor_info.heartRate;
+    	}
+    	WatchUi.requestUpdate();
+    }
+    
     function timerCallback() {
     	var log_text;
     	
     	var sensorInfo = Sensor.getInfo();
-    	if (sensorInfo has :accel && sensorInfo.accel != null) {
+    	if (sensorInfo has :accel && sensorInfo.accel != null && sensorInfo.heartRate != null) {
         	var accel = sensorInfo.accel;
         	sum_new = Math.floor(Math.sqrt((accel[0] * accel[0]) + (accel[1] * accel[1]) + (accel[2] * accel[2]))).toNumber();
         	if(prior_value_exists){
@@ -57,16 +65,18 @@ class SleepCycleView extends WatchUi.View {
             if (sum.abs() > max_sum) {
                	max_sum = sum.abs();
             }
+    		pulse_sum += sensorInfo.heartRate;
             counter++;
         	prior_value_exists = true;
         	if (counter >= 600){
         		myTime = System.getClockTime();
-        		log_text = myTime.min.format("%02d") + ";" + max_sum_new.toString() + ";" + max_sum.toString();
+        		log_text = myTime.min.format("%02d") + ";" + max_sum_new.toString() + ";" + max_sum.toString() + ";" + (pulse_sum/600).toString();
         		System.println(log_text);
         		
         		counter = 0;
         		max_sum_new = 0;
         		max_sum = 0;
+        		pulse_sum = 0;
         	}
         	past_accel[0] = accel[0];
         	past_accel[1] = accel[1];
