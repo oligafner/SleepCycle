@@ -5,4 +5,6 @@
 
     <string id="menu_label_1">SET TIMER</string>
     <string id="menu_label_2">SET RANGE</string>
+    <string id="menu_label_3">TOGGLE LIGHT</string>
+    <string id="menu_label_4">TRIGGER SOUND</string>
 </strings>

@@ -1,6 +1,6 @@
 using Toybox.WatchUi;
 
-class SleepCycleDelegate extends WatchUi.BehaviorDelegate {
+class SleepCycleMainDelegate extends WatchUi.BehaviorDelegate {
 
     function initialize() {
         BehaviorDelegate.initialize();

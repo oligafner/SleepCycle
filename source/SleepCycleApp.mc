@@ -18,7 +18,7 @@ class SleepCycleApp extends Application.AppBase {
 
     // Return the initial view of your application here
     function getInitialView() {
-        return [ new SleepCycleView(), new SleepCycleDelegate() ];
+        return [ new SleepCycleMainView(), new SleepCycleMainDelegate() ];
     }
 
 }

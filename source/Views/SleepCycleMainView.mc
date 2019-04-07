@@ -3,7 +3,7 @@ using Toybox.Timer;
 using Toybox.Application.Storage;
 using Toybox.Timer;
 
-class SleepCycleView extends WatchUi.View {
+class SleepCycleMainView extends WatchUi.View {
 
 	var debug_string;
 	var graph;
@@ -15,7 +15,7 @@ class SleepCycleView extends WatchUi.View {
 	var time;
 	//For the generation of the log
 	var max_sum_new;
-	var counter;
+	var counter = 0;
 	//Strings used to draw the time
 	var clock;
 	var set_time;
@@ -29,7 +29,7 @@ class SleepCycleView extends WatchUi.View {
     	time = System.getClockTime();
     	clock = time.hour.format("%02d") + ":" + time.min.format("%02d") + ":" + time.sec.format("%02d");
         var myTimer = new Timer.Timer();
-    	myTimer.start(method(:timerCallback), 500, true);
+    	myTimer.start(method(:timerCallback), 1000, true);
     	setLayout(Rez.Layouts.MainLayout(dc));
     }
 
@@ -60,8 +60,23 @@ class SleepCycleView extends WatchUi.View {
     }
     
     function timerCallback() {
-    	time = System.getClockTime();
+    	//counter += 1;
+    	//if (counter >= 10 && Attention has :playTone) {
+   		//	Attention.playTone(Attention.TONE_TIME_ALERT);
+   		//	//counter = 0;
+		//}
+		
+		time = System.getClockTime();
      	clock = time.hour.format("%02d") + ":" + time.min.format("%02d") + ":" + time.sec.format("%02d");
+		
+		if(Storage.getValue("set_time") != null  && Attention has :playTone){
+    		var hours = Storage.getValue("timer_hoursOfDay");
+    		var mins = Storage.getValue("timer_minutesOfDay");
+    		if (time.hour >= hours && time.min >= mins){
+    			Attention.playTone(Attention.TONE_TIME_ALERT);
+    		}	
+    	}
+    	
     	WatchUi.requestUpdate();
 	}
     
