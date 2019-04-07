@@ -1,7 +1,7 @@
 using Toybox.Application;
 using Toybox.WatchUi;
 
-class SleepCycleApp extends Application.AppBase {
+class LoggerApp extends Application.AppBase {
 
     function initialize() {
         AppBase.initialize();
@@ -17,7 +17,7 @@ class SleepCycleApp extends Application.AppBase {
 
     // Return the initial view of your application here
     function getInitialView() {
-        return [ new SleepCycleView(), new SleepCycleDelegate() ];
+        return [ new LoggerView(), new LoggerDelegate() ];
     }
 
 }

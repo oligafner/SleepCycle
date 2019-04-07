@@ -1,7 +1,7 @@
 using Toybox.WatchUi;
 using Toybox.Timer;
 
-class SleepCycleView extends WatchUi.View {
+class LoggerView extends WatchUi.View {
 
 	var debug_string;
 	var prior_value_exists = false;
