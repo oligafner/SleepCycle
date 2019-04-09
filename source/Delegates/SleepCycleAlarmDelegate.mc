@@ -6,8 +6,8 @@ class SleepCycleAlarmDelegate extends WatchUi.BehaviorDelegate {
         BehaviorDelegate.initialize();
     }
 
-    function onSelect() {
-        System.println("onSelect()");
+    function onSelect() {	
+        WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
         return true;
     }
 

@@ -19,6 +19,7 @@ class SleepCycleMainView extends WatchUi.View {
 	//Strings used to draw the time
 	var clock;
 	var set_time;
+	//For the alarm
 
     function initialize() {
         View.initialize();
@@ -37,6 +38,7 @@ class SleepCycleMainView extends WatchUi.View {
     // the state of this View and prepare it to be shown. This includes
     // loading resources into memory.
     function onShow() {
+    	Storage.setValue("alarm_on", false);
     	if(Storage.getValue("set_time") != null){
     		var hours = Storage.getValue("timer_hoursOfDay");
     		var mins = Storage.getValue("timer_minutesOfDay");
@@ -72,8 +74,9 @@ class SleepCycleMainView extends WatchUi.View {
 		if(Storage.getValue("set_time") != null  && Attention has :playTone){
     		var hours = Storage.getValue("timer_hoursOfDay");
     		var mins = Storage.getValue("timer_minutesOfDay");
-    		if (time.hour >= hours && time.min >= mins){
-    			Attention.playTone(Attention.TONE_TIME_ALERT);
+    		if (time.hour == hours && time.min == mins && time.sec == 0){
+    			Storage.setValue("alarm_on", true);
+    			WatchUi.pushView(new SleepCycleAlarmView(), new SleepCycleAlarmDelegate(), WatchUi.SLIDE_IMMEDIATE);
     		}	
     	}
     	
