@@ -4,11 +4,10 @@ using Toybox.Timer;
 
 class SleepCycleApp extends Application.AppBase {
 	
-	//counters
-	var counterSecond = 0;
+	// counters
 	var counter = 0;
 	
-	//sensor values
+	// sensor values
 	var sum = 0;
 	var sum_new = 0;
 	var max_sum = 0;
@@ -17,8 +16,8 @@ class SleepCycleApp extends Application.AppBase {
 	var past_accel = new [3];
 	var prior_value_exists = false;
 	
-	//constants
-	var movementThreshold = 1000;
+	// constants
+	var movementThreshold = 200;
 	var debug = true;
 
     function initialize() {
@@ -27,10 +26,9 @@ class SleepCycleApp extends Application.AppBase {
 
     // onStart() is called on application start up
     function onStart(state) {
-    	//Storage.clearValues();
     	Storage.setValue("alarm", false);
-    	var myTimer = new Timer.Timer();
-    	myTimer.start(method(:timerCallback), 100, true);
+    	var timer = new Timer.Timer();
+    	timer.start(method(:everyTenthOfSecond), 100, true);
     }
 
     // onStop() is called when your application is exiting
@@ -42,13 +40,10 @@ class SleepCycleApp extends Application.AppBase {
         return [ new SleepCycleMainView(), new SleepCycleMainDelegate() ];
     }
 
-	function timerCallback() {
-		counterSecond += 1;
-		if(counterSecond >= 10){ //should be 600 once a minute
-			counterSecond = 0;
-    		WatchUi.requestUpdate();
-		}
-    	
+	// callback function running every tenth of a second / main loop
+	function everyTenthOfSecond() {    	
+	
+		// gather information and store max
     	var sensorInfo = Sensor.getInfo();
     	if (sensorInfo has :accel && sensorInfo.accel != null) {
         	var accel = sensorInfo.accel;
@@ -67,8 +62,15 @@ class SleepCycleApp extends Application.AppBase {
         	prior_value_exists = true;
     	}
     	
+		
+    	
     	counter ++;
+    	// redraw UI
+    	if(counter % 10 == 0){ //should MAYBE be 600 once a minute
+    		WatchUi.requestUpdate();
+		}
             
+        // check if it's time to wake up
         if (counter >= 10){ //should be 600 once per minute
         	var clockTime = System.getClockTime();
         	var timeInMinutes = clockTime.hour * 60 + clockTime.min;
@@ -77,12 +79,10 @@ class SleepCycleApp extends Application.AppBase {
         	
         	var timeInRange = (timeInMinutes >= alarmInMinutes - rangeInMinutes && timeInMinutes < alarmInMinutes);
         	var movmentDetected = (max_sum >= movementThreshold);
+        	var alarmNotYetTriggered = Storage.getValue("alarm") == false;
         	
-        	//log_text = time.min.format("%02d") + ";" + max_sum_new.toString() + ";" + max_sum.toString() + ";" + (pulse_sum/600).toString();
-        	//System.println(log_text);
-        	
-        	if (Storage.getValue("alarm") == false && ((timeInRange && movmentDetected) || timeInMinutes == alarmInMinutes)){
-        		log("there we go");
+        	if (alarmNotYetTriggered && ((timeInRange && movmentDetected) || timeInMinutes == alarmInMinutes)){
+        		log("Alarm!!!");
         		Storage.setValue("alarm", true);
         		makeRequest();
         		WatchUi.pushView(new SleepCycleAlarmView(), new SleepCycleAlarmDelegate(), WatchUi.SLIDE_IMMEDIATE);
@@ -95,15 +95,18 @@ class SleepCycleApp extends Application.AppBase {
     }
 	
 	function makeRequest() {
-    	var url = "https://api.lifx.com/v1/lights/d073d5010de1/toggle";
-       	var params = {};
-		var options = {           
-			:method => Communications.HTTP_REQUEST_METHOD_POST,
-			:headers => {"Authorization" => "Bearer c6c6347d1e0c152cb5e765093831af9e6c2fcd840d5400915d9a75e65810abe8"}
-		};
-		var responseCallback = method(:onReceive);
+		var lifxAccessToken = Application.getApp().getProperty("LifxAccessToken");
+		if (lifxAccessToken != null) {
+			var url = "https://api.lifx.com/v1/lights/all/toggle";
+       		var params = {};
+			var options = {           
+				:method => Communications.HTTP_REQUEST_METHOD_POST,
+				:headers => {"Authorization" => "Bearer " + lifxAccessToken}
+			};
+			var responseCallback = method(:onReceive);
 
-		Communications.makeWebRequest(url, params, options, method(:onReceive));
+			Communications.makeWebRequest(url, params, options, method(:onReceive));
+		}
 	}
 	
 	

@@ -19,11 +19,7 @@ class SleepCycleSetTimerNumberPickerDelegate extends WatchUi.NumberPickerDelegat
         //Calculate time out of the amount of seconds we stored
         //Hour: 3600 s; Minute: 60 s;
         var seconds_total = myValue.value();
-        var hours = (seconds_total / 3600);
-		var mins = (seconds_total / 60 % 60);
 		var alarmInMinutes = (seconds_total / 60);
-		Storage.setValue("timer_hoursOfDay", hours);
-		Storage.setValue("timer_minutesOfDay", mins);
 		Storage.setValue("alarmInMinutes", alarmInMinutes);
     }
 }
