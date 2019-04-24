@@ -73,7 +73,7 @@ class SleepCycleApp extends Application.AppBase {
         	var clockTime = System.getClockTime();
         	var timeInMinutes = clockTime.hour * 60 + clockTime.min;
         	var alarmInMinutes = (Storage.getValue("alarmInMinutes") != null) ? Storage.getValue("alarmInMinutes") : 0;
-        	var rangeInMinutes = (Storage.getValue("rangeInMinutes") != null) ? Storage.getValue("rangeInMinutes") : 0;
+       		var rangeInMinutes = (Storage.getValue("rangeInMinutes") != null) ? Storage.getValue("rangeInMinutes") : 0;
         	
         	var timeInRange = (timeInMinutes >= alarmInMinutes - rangeInMinutes && timeInMinutes < alarmInMinutes);
         	var movmentDetected = (max_sum >= movementThreshold);

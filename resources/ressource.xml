@@ -1,0 +1,3 @@
+<properties>
+    <property id="LifxAccessToken" type="string"></property>
+</properties>
