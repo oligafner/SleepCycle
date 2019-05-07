@@ -3,7 +3,7 @@
 	propertyKey="@Properties.LifxAccessToken" 
 	title="@Strings.LifxAccessTokenTitle" 
 	prompt="@Strings.LifxAccessTokenPromt" 
-	helpUrl="https://cloud.lifx.com/oauth/authorize?client_id=9ba05a39cf68e6022d5402a6653b97037dff65bc726070fdefc1bd32f1baa4d2&amp;scope=remote_control:all&amp;state=hallobla&amp;response_type=code"
+	helpUrl="https://sleepcycle.gafner.io/getLifxAccessToken"
 	>
         <settingConfig type="alphaNumeric" />
     </setting>

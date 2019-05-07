@@ -5,5 +5,5 @@
     <string id="menu_label_2">SET RANGE</string>
     
     <string id="LifxAccessTokenTitle">LIFX Light Access Token</string>    
-    <string id="LifxAccessTokenPromt">Press Help to get the token.</string>
+    <string id="LifxAccessTokenPromt">Press the link below and paste the token in the field above.</string>
 </strings>
