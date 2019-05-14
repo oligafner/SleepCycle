@@ -6,4 +6,5 @@
     
     <string id="LifxAccessTokenTitle">LIFX Light Access Token</string>    
     <string id="LifxAccessTokenPromt">Press the link below and paste the token in the field above.</string>
+    <string id="timeSeparator">:</string>
 </strings>

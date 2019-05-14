@@ -17,7 +17,7 @@ class SleepCycleRangePickerDelegate extends WatchUi.PickerDelegate {
     function onAccept(values) {
     	System.println("Picker onAccept");
         var rangeInMinutes = values[0];
-        System.println("data: " + rangeInMinutes);
+        System.println("Set Range: " + rangeInMinutes);
         Storage.setValue("rangeInMinutes", rangeInMinutes);
         System.println("Picker setProberty");
         WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
