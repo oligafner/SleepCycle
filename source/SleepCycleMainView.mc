@@ -41,7 +41,7 @@ class SleepCycleMainView extends WatchUi.View {
         
         //var lifxAccessToken = Application.getApp().getProperty("LifxAccessToken");
         
-        dc.drawText(dc.getWidth() / 2, dc.getHeight() / 2, Graphics.FONT_LARGE, currentTimeString, Graphics.TEXT_JUSTIFY_CENTER);
+        dc.drawText(dc.getWidth() / 2, dc.getHeight() / 2 - 30, Graphics.FONT_NUMBER_HOT, currentTimeString, Graphics.TEXT_JUSTIFY_CENTER);
         dc.drawText(dc.getWidth() / 2, dc.getHeight() / 2 + 50, Graphics.FONT_LARGE, alarmTimeString, Graphics.TEXT_JUSTIFY_CENTER);
         //dc.drawText(dc.getWidth() / 2, dc.getHeight() / 2 -30, Graphics.FONT_SMALL, lifxAccessToken, Graphics.TEXT_JUSTIFY_CENTER);
     }
