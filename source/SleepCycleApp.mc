@@ -27,6 +27,7 @@ class SleepCycleApp extends Application.AppBase {
 
     // onStart() is called on application start up
     function onStart(state) {
+    	//Storage.clearValues();
     	Storage.setValue("alarm", false);
     	var timer = new Timer.Timer();
     	timer.start(method(:everyTenthOfSecond), 100, true);
@@ -77,19 +78,21 @@ class SleepCycleApp extends Application.AppBase {
         	var timeInMinutes = clockTime.hour * 60 + clockTime.min;
         	var alarmInMinutes = (Storage.getValue("alarmInMinutes") != null) ? Storage.getValue("alarmInMinutes") : 0;
        		var rangeInMinutes = (Storage.getValue("rangeInMinutes") != null) ? Storage.getValue("rangeInMinutes") : 0;
-       		switch(Storage.getValue("sensitivity")){
-       			case 1: movementThreshold = 500;
-       			break;
-       			case 2: movementThreshold = 300;
-       			break;
-       			case 3: movementThreshold = 200;
-       			break;
-       			case 4: movementThreshold = 125;
-       			break;
-       			case 5: movementThreshold = 50;
-       			break;
-       			default: movementThreshold = 200;
-       			break;
+       		if(Storage.getValue("sensitivity") != null){
+       			switch(Storage.getValue("sensitivity")){
+       				case 1: movementThreshold = 500;
+       				break;
+       				case 2: movementThreshold = 300;
+       				break;
+       				case 3: movementThreshold = 200;
+       				break;
+       				case 4: movementThreshold = 125;
+       				break;
+       				case 5: movementThreshold = 50;
+       				break;
+       			}
+       		} else {
+       			movementThreshold = 200;
        		}
         	
         	var timeInRange = (timeInMinutes >= alarmInMinutes - rangeInMinutes && timeInMinutes < alarmInMinutes);
