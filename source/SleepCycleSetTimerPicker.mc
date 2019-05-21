@@ -9,6 +9,7 @@ class SleepCycleSetTimerPicker extends WatchUi.Picker {
         var title = new WatchUi.Text({:text=>"Set Timer", :locX =>WatchUi.LAYOUT_HALIGN_CENTER, :locY=>WatchUi.LAYOUT_VALIGN_BOTTOM, :color=>Graphics.COLOR_WHITE});
         var factories;
         var defaults = new [3];
+        var clockTime = System.getClockTime();
         factories = new [3];
         //Create pickers
         factories[0] = new NumberFactory(0, 23, 1, {});
@@ -22,8 +23,8 @@ class SleepCycleSetTimerPicker extends WatchUi.Picker {
         	defaults[0] = factories[0].getIndex(hours);
         	defaults[2] = factories[2].getIndex(mins);
         } else {
-        	defaults[0] = factories[0].getIndex(0);
-        	defaults[2] = factories[2].getIndex(0);
+        	defaults[0] = factories[0].getIndex(clockTime.hour);
+        	defaults[2] = factories[2].getIndex(clockTime.min);
         }
         //Initialize picker    
         Picker.initialize({:title=>title, :pattern=>factories, :defaults=>defaults}); 

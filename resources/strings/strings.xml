@@ -1,7 +1,7 @@
 <strings>
     <string id="AppName">SleepCycle</string>
 
-    <string id="menu_label_1">SET TIMER</string>
+    <string id="menu_label_1">SET ALARM</string>
     <string id="menu_label_2">SET RANGE</string>
     <string id="menu_label_3">SENSITIVITY</string>
     

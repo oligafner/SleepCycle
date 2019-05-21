@@ -6,14 +6,14 @@ using Toybox.Application.Storage;
 
 class SleepCycleAlarmView extends WatchUi.View {
 
-	var sensor_data;
-	var graph;
 	var myTimer;
+	var watchRight;
+	var watchLeft;
+	var rightFrame;
 
     function initialize() {
         View.initialize();
         System.println("AlarmView initialized");
-        sensor_data = "Beep";
     }
 
     // Load your resources here
@@ -21,6 +21,9 @@ class SleepCycleAlarmView extends WatchUi.View {
     	myTimer = new Timer.Timer();
     	myTimer.start(method(:timerCallback), 1000, true);
         setLayout(Rez.Layouts.MainLayout(dc));
+        watchRight = new WatchUi.Bitmap({:rezId=>Rez.Drawables.AlarmRightIcon, :locX=>dc.getWidth() / 4 - 20, :locY=>dc.getHeight() / 4});
+        watchLeft = new WatchUi.Bitmap({:rezId=>Rez.Drawables.AlarmLeftIcon, :locX=>dc.getWidth() / 4 - 20, :locY=>dc.getHeight() / 4});
+        rightFrame = false;
     }
 
     // Called when this View is brought to the foreground. Restore
@@ -33,7 +36,11 @@ class SleepCycleAlarmView extends WatchUi.View {
     function onUpdate(dc) {
         // Call the parent onUpdate function to redraw the layout
         View.onUpdate(dc);
-        dc.drawText(dc.getWidth() / 2, dc.getHeight() / 2, Graphics.FONT_LARGE, sensor_data, Graphics.TEXT_JUSTIFY_CENTER);
+        if(rightFrame){
+        	watchRight.draw(dc);
+        } else {
+        	watchLeft.draw(dc);
+        }
         
     }
 
@@ -49,7 +56,9 @@ class SleepCycleAlarmView extends WatchUi.View {
     	if(Attention has :playTone){
     		System.println("Has playTone");
     		Attention.playTone(Attention.TONE_TIME_ALERT);
+    		Attention.backlight(true);
     	}
+    	rightFrame = !rightFrame;
 	}
 
 }

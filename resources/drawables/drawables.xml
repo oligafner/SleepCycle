@@ -1,3 +1,7 @@
 <drawables>
     <bitmap id="LauncherIcon" filename="launcher_icon.png" />
+    <bitmap id="BatteryIcon" filename="Battery.png" />
+    <bitmap id="BatteryLowIcon" filename="BatteryRed.png" />
+    <bitmap id="AlarmRightIcon" filename="alarm-right.png" />
+    <bitmap id="AlarmLeftIcon" filename="alarm-left.png" />
 </drawables>

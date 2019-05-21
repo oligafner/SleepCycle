@@ -9,5 +9,9 @@ class SleepCycleAlarmDelegate extends WatchUi.BehaviorDelegate {
     function onSelect() {	
     	System.exit();
     }
+    
+    function onCancel() {
+    	return false;
+    }
 
 }
