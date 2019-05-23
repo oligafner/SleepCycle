@@ -29,13 +29,15 @@ class SleepCycleMainView extends WatchUi.View {
     function onShow() {
     	var clockTime = System.getClockTime();
     	currentTimeString = clockTime.hour.format("%02d") + ":" + clockTime.min.format("%02d");
+    	//If the user has set the alarm and range, get the values
     	if(Storage.getValue("alarmInMinutes") != null && Storage.getValue("rangeInMinutes") != null){
     		var alarmInMinutes = Storage.getValue("alarmInMinutes");
     		var rangeInMinutes = Storage.getValue("rangeInMinutes");
     		alarmTimeString = ((alarmInMinutes-rangeInMinutes) / 60).format("%02d") + ":" + ((alarmInMinutes-rangeInMinutes) % 60).format("%02d") + 
     						  " - " + (alarmInMinutes / 60).format("%02d") + ":" + (alarmInMinutes % 60).format("%02d");
+    	//Else display the message "Set alarm and range"
     	} else {
-    		alarmTimeString = "set alarm & range";
+    		alarmTimeString = WatchUi.loadResource(Rez.Strings.noAlarmSet);
     	}
     }
 
@@ -45,15 +47,18 @@ class SleepCycleMainView extends WatchUi.View {
         var clockTime = System.getClockTime();
         var battery = System.getSystemStats().battery;
         
-    	currentTimeString = clockTime.hour.format("%02d") + ":" + clockTime.min.format("%02d") + ":" + clockTime.sec.format("%02d");
+    	currentTimeString = clockTime.hour.format("%02d") + ":" + clockTime.min.format("%02d");
         batteryString = battery.format("%02d") + "%";
-        //var lifxAccessToken = Application.getApp().getProperty("LifxAccessToken");
-        
-        //dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
+		//We set the foreground color to white and the background to black (important because that way only the battery status color changes later)
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
         dc.drawText(dc.getWidth() / 2, dc.getHeight() / 2 - 30, Graphics.FONT_NUMBER_HOT, currentTimeString, Graphics.TEXT_JUSTIFY_CENTER);
-        dc.drawText(dc.getWidth() / 2, dc.getHeight() / 2 + 50, Graphics.FONT_LARGE, alarmTimeString, Graphics.TEXT_JUSTIFY_CENTER);
-        //dc.drawText(dc.getWidth() / 2, dc.getHeight() / 2 -30, Graphics.FONT_SMALL, lifxAccessToken, Graphics.TEXT_JUSTIFY_CENTER);
+        //Because the message we display needs different formatting, we need to differentiate between the two cases
+        if(Storage.getValue("alarmInMinutes") != null && Storage.getValue("rangeInMinutes") != null){
+        	dc.drawText(dc.getWidth() / 2, dc.getHeight() / 2 + 50, Graphics.FONT_LARGE, alarmTimeString, Graphics.TEXT_JUSTIFY_CENTER);
+        } else {
+        	dc.drawText(dc.getWidth() / 2, dc.getHeight() / 2 + 30, Graphics.FONT_MEDIUM, alarmTimeString, Graphics.TEXT_JUSTIFY_CENTER);
+        }
+        //If the battery goes down to 15% change the color of the battery status to red
         if(battery < 16){
         	dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_BLACK);
         	batteryLowIcon.draw(dc);

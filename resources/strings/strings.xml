@@ -9,4 +9,8 @@
     <string id="LifxAccessTokenPromt">Press the link below and paste the token in the field above.</string>
     <string id="timeSeparator">:</string>
     <string id="confMsg">Are you sure\nyou want to\nclose the App?</string>
+    <string id="noAlarmSet">Set alarm\nand range</string>
+    <string id="rangeTitle">Set Range</string>
+    <string id="sensTitle">Pick Sensitivity</string>
+    <string id="timerTitle">Set Timer</string>
 </strings>

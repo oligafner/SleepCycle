@@ -1,5 +1,4 @@
 using Toybox.Application.Storage;
-using Toybox.Graphics;
 using Toybox.WatchUi;
 
 class SleepCycleSensitivityPickerDelegate extends WatchUi.PickerDelegate {
@@ -13,7 +12,6 @@ class SleepCycleSensitivityPickerDelegate extends WatchUi.PickerDelegate {
     }
 
     function onAccept(values) {
-    	System.println("Picker onAccept");
         var sens = values[0];
         Storage.setValue("sensitivity", sens);
         WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
