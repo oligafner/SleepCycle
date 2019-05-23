@@ -5,13 +5,14 @@ class SleepCycleAlarmDelegate extends WatchUi.BehaviorDelegate {
     function initialize() {
         BehaviorDelegate.initialize();
     }
-
-    function onSelect() {
+	
+	//close app if user presses select
+    function onSelect() {	
     	System.exit();
     }
     
-    function onBack() {
+    //close app if user presses back
+    function onBack() {	
     	System.exit();
     }
-
 }
