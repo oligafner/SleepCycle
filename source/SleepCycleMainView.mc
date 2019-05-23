@@ -32,7 +32,8 @@ class SleepCycleMainView extends WatchUi.View {
     	if(Storage.getValue("alarmInMinutes") != null && Storage.getValue("rangeInMinutes") != null){
     		var alarmInMinutes = Storage.getValue("alarmInMinutes");
     		var rangeInMinutes = Storage.getValue("rangeInMinutes");
-    		alarmTimeString = (alarmInMinutes / 60).format("%02d") + ":" + (alarmInMinutes % 60).format("%02d") + " " + rangeInMinutes.toString();
+    		alarmTimeString = ((alarmInMinutes-rangeInMinutes) / 60).format("%02d") + ":" + ((alarmInMinutes-rangeInMinutes) % 60).format("%02d") + 
+    						  " - " + (alarmInMinutes / 60).format("%02d") + ":" + (alarmInMinutes % 60).format("%02d");
     	} else {
     		alarmTimeString = "set alarm & range";
     	}

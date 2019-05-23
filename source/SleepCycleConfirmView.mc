@@ -15,7 +15,6 @@ class SleepCycleConfirmView extends WatchUi.View {
     
     function onUpdate(dc) {
         View.onUpdate(dc);
-        var message = "Are you sure\nyou want to\nclose the App?";
-        dc.drawText(dc.getWidth() / 2, dc.getHeight() / 2 - 40, Graphics.FONT_LARGE, message, Graphics.TEXT_JUSTIFY_CENTER);
+        dc.drawText(dc.getWidth() / 2, dc.getHeight() / 2 - 40, Graphics.FONT_LARGE, WatchUi.loadResource(Rez.Strings.confMsg), Graphics.TEXT_JUSTIFY_CENTER);
     }
 }

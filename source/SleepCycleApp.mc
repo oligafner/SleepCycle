@@ -8,13 +8,13 @@ class SleepCycleApp extends Application.AppBase {
 	var counter = 0;
 	
 	// sensor values
-	var sum = 0;
+	//var sum = 0;
 	var sum_new = 0;
-	var max_sum = 0;
+	//var max_sum = 0;
 	var max_sum_new = 0;
 	var pulse_sum = 0;
 	var past_accel = new [3];
-	var prior_value_exists = false;
+	//var prior_value_exists = false;
 	var movementThreshold;
 	
 	// constants
@@ -49,19 +49,19 @@ class SleepCycleApp extends Application.AppBase {
     	var sensorInfo = Sensor.getInfo();
     	if (sensorInfo has :accel && sensorInfo.accel != null) {
         	var accel = sensorInfo.accel;
-        	if(prior_value_exists){
-        		sum = ((past_accel[0] - accel[0]).abs() + (past_accel[1] - accel[1]).abs() + (past_accel[2] - accel[2]).abs());
-        	}
+        	//if(prior_value_exists){
+        	//	sum = ((past_accel[0] - accel[0]).abs() + (past_accel[1] - accel[1]).abs() + (past_accel[2] - accel[2]).abs());
+        	//}
             if (sum_new.abs() > max_sum_new) {
                	max_sum_new = sum_new.abs();
             }
-            if (sum.abs() > max_sum) {
-               	max_sum = sum.abs();
-            }
+            //if (sum.abs() > max_sum) {
+            //   	max_sum = sum.abs();
+            //}
     		pulse_sum += (sensorInfo.heartRate != null) ? sensorInfo.heartRate : 0;
     		
     		past_accel = accel;
-        	prior_value_exists = true;
+        	//prior_value_exists = true;
     	}
     	
 		
@@ -96,7 +96,8 @@ class SleepCycleApp extends Application.AppBase {
        		}
         	
         	var timeInRange = (timeInMinutes >= alarmInMinutes - rangeInMinutes && timeInMinutes < alarmInMinutes);
-        	var movmentDetected = (max_sum >= movementThreshold);
+        	//var movmentDetected = (max_sum >= movementThreshold);
+        	var movmentDetected = (max_sum_new >= movementThreshold);
         	var alarmNotYetTriggered = Storage.getValue("alarm") == false;
         	
         	if (alarmNotYetTriggered && ((timeInRange && movmentDetected) || timeInMinutes == alarmInMinutes)){
@@ -107,7 +108,7 @@ class SleepCycleApp extends Application.AppBase {
         	}        		
         	counter = 0;
         	max_sum_new = 0;
-        	max_sum = 0;
+        	//max_sum = 0;
         	pulse_sum = 0;
         }
     }

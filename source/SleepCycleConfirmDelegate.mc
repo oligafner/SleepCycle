@@ -8,11 +8,5 @@ class SleepCycleConfirmDelegate extends WatchUi.BehaviorDelegate {
 
     function onSelect() {
         System.exit();
-        return true;
     }
-    
-    function onCancel() {
-    	WatchUi.popView(WatchUi.SLIDE_DOWN);
-    }
-
 }

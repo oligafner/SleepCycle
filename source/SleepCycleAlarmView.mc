@@ -1,6 +1,4 @@
 using Toybox.WatchUi;
-using Toybox.Sensor;
-using Toybox.System;
 using Toybox.Timer;
 using Toybox.Application.Storage;
 
@@ -13,13 +11,12 @@ class SleepCycleAlarmView extends WatchUi.View {
 
     function initialize() {
         View.initialize();
-        System.println("AlarmView initialized");
     }
 
     // Load your resources here
     function onLayout(dc) {
     	myTimer = new Timer.Timer();
-    	myTimer.start(method(:timerCallback), 1000, true);
+    	myTimer.start(method(:alarmBehaviour), 1000, true);
         setLayout(Rez.Layouts.MainLayout(dc));
         watchRight = new WatchUi.Bitmap({:rezId=>Rez.Drawables.AlarmRightIcon, :locX=>dc.getWidth() / 4 - 20, :locY=>dc.getHeight() / 4});
         watchLeft = new WatchUi.Bitmap({:rezId=>Rez.Drawables.AlarmLeftIcon, :locX=>dc.getWidth() / 4 - 20, :locY=>dc.getHeight() / 4});
@@ -34,7 +31,6 @@ class SleepCycleAlarmView extends WatchUi.View {
 
     // Update the view
     function onUpdate(dc) {
-        // Call the parent onUpdate function to redraw the layout
         View.onUpdate(dc);
         if(rightFrame){
         	watchRight.draw(dc);
@@ -51,13 +47,12 @@ class SleepCycleAlarmView extends WatchUi.View {
     	myTimer.stop();
     }
     
-    function timerCallback() {
-    	System.println("AlarmView timer tick");
+    function alarmBehaviour() {
     	if(Attention has :playTone){
-    		System.println("Has playTone");
     		Attention.playTone(Attention.TONE_TIME_ALERT);
     		Attention.backlight(true);
     	}
+    	//Change the clock image every update to simulate an animation
     	rightFrame = !rightFrame;
 	}
 
