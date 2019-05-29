@@ -1,4 +1,4 @@
-<fonts>
-	<font id="steelfishEb" filename="steelfishEb.fnt" filter="1234567890:" antialias="true" />
-    <font id="steelfishRg" filename="steelfishRg.fnt" filter="1234567890:" antialias="true" />
+<fonts>    
+    <font id="bebasNeueBold" filename="BebasNeueBold.fnt" filter="1234567890:" antialias="true" />
+    <font id="bebasNeueBook" filename="BebasNeueBook.fnt" filter="1234567890:" antialias="true" />
 </fonts>

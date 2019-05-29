@@ -14,13 +14,8 @@ class SleepCycleRangePicker extends WatchUi.Picker {
         
         factories[0] = new NumberFactory(5,60,5,{});
         defaults = new [1];
-        //If the user already set a range, we use that as the default value.
-        if(Storage.getValue("rangeInMinutes") != null){
-        	rangeInMinutes = Storage.getValue("rangeInMinutes");
-        } else {
-        	rangeInMinutes = 5;
-        }
-        //Wieso muss man hier +20 rechnen?
+        rangeInMinutes = Storage.getValue("rangeInMinutes");
+        // strange + 20 fix
         defaults[0] = factories[0].getIndex(rangeInMinutes + 20);
         Picker.initialize({:title=>title, :pattern=>factories, :defaults=>defaults});   
     }

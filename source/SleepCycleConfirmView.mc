@@ -7,7 +7,7 @@ class SleepCycleConfirmView extends WatchUi.View {
     }
     
     function onLayout(dc) {
-    	setLayout(Rez.Layouts.MainLayout(dc));
+    	setLayout(Rez.Layouts.ConfirmLayout(dc));
     }
     
     function onShow() {
@@ -15,6 +15,6 @@ class SleepCycleConfirmView extends WatchUi.View {
     
     function onUpdate(dc) {
         View.onUpdate(dc);
-        dc.drawText(dc.getWidth() / 2, dc.getHeight() / 2 - 40, Graphics.FONT_LARGE, WatchUi.loadResource(Rez.Strings.confMsg), Graphics.TEXT_JUSTIFY_CENTER);
+        dc.drawText(dc.getWidth() / 2, dc.getHeight() / 2 - 40, Graphics.FONT_MEDIUM, WatchUi.loadResource(Rez.Strings.confMsg), Graphics.TEXT_JUSTIFY_CENTER);
     }
 }

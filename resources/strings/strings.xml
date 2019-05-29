@@ -1,16 +1,15 @@
 <strings>
     <string id="AppName">SleepCycle</string>
 
-    <string id="menu_label_1">SET ALARM</string>
-    <string id="menu_label_2">SET RANGE</string>
-    <string id="menu_label_3">SENSITIVITY</string>
+    <string id="menu_label_1">Set Alarm</string>
+    <string id="menu_label_2">Set Range</string>
+    <string id="menu_label_3">Sensitivity</string>
     
     <string id="LifxAccessTokenTitle">LIFX Light Access Token</string>    
     <string id="LifxAccessTokenPromt">Press the link below and paste the token in the field above.</string>
     <string id="timeSeparator">:</string>
-    <string id="confMsg">Are you sure\nyou want to\nclose the App?</string>
-    <string id="noAlarmSet">Set alarm\nand range</string>
+    <string id="confMsg">SleepCycle works only \nwhen open! Are you sure\nyou want to close \nthe App?</string>
     <string id="rangeTitle">Set Range</string>
     <string id="sensTitle">Pick Sensitivity</string>
-    <string id="timerTitle">Set Timer</string>
+    <string id="timerTitle">Set Alarm</string>
 </strings>

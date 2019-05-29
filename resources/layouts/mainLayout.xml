@@ -1,0 +1,4 @@
+<layout id="MainLayout">
+    <label x="35" y="5" font="Graphics.FONT_SMALL" text="@Strings.AppName" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_LEFT" />
+</layout>
+

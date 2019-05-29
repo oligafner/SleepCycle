@@ -12,10 +12,7 @@ class SleepCycleSetTimerPickerDelegate extends WatchUi.PickerDelegate {
     }
 
     function onAccept(values) {
-        var seconds_total = values[0]*3600 + values[2]*60;
-        Storage.setValue("set_time", seconds_total); //Stores number of seconds since the beginning of the day
-        //Calculate time out of the amount of seconds we stored
-		var alarmInMinutes = (seconds_total / 60);
+        var alarmInMinutes = values[0]*60 + values[2];
 		Storage.setValue("alarmInMinutes", alarmInMinutes);
 		WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
     }
